@@ -27,66 +27,66 @@ app.get("/", (req, res) => {
   res.send("Server is running!!!");
 });
 
-// const questions = [
-//   "ما هو سنك ؟",
-//   "هل انت ذكر ام انثي ؟",
-//   "كم هو طولك ؟",
-//   "كم هو وزنك ؟",
-//   "ماهي الرياضه التي تمارسها ؟",
-//   "مازال تمارس هذه الرياضه ام معتزل ؟",
-//   "ماهي الاصابات التي اصبت بها من قبل ؟",
-//   "هل عالجت هذه الاصابات ام لا ؟",
-//   "هل يختلف الالم من مكان الي اخر ام يبقي في نفس المكان ؟",
-//   "اين موضع الالم ؟ هل تشعر بالعمق ام السطحيه ؟",
-//   "هل الوضع يتحسن ام يسوء ؟",
-//   "متي تشعر ان الامر يزاد سوءا و متي يتحسن ؟",
-//   "هل هذه المره الاولي التي تعاني منها ام واجهت شيئا مشابها من قبل ؟",
-//   "ما هي طبيعه عملك ؟",
-// ];
+const questions = [
+  "ما هو سنك ؟",
+  "هل انت ذكر ام انثي ؟",
+  "كم هو طولك ؟",
+  "كم هو وزنك ؟",
+  "ماهي الرياضه التي تمارسها ؟",
+  "مازال تمارس هذه الرياضه ام معتزل ؟",
+  "ماهي الاصابات التي اصبت بها من قبل ؟",
+  "هل عالجت هذه الاصابات ام لا ؟",
+  "هل يختلف الالم من مكان الي اخر ام يبقي في نفس المكان ؟",
+  "اين موضع الالم ؟ هل تشعر بالعمق ام السطحيه ؟",
+  "هل الوضع يتحسن ام يسوء ؟",
+  "متي تشعر ان الامر يزاد سوءا و متي يتحسن ؟",
+  "هل هذه المره الاولي التي تعاني منها ام واجهت شيئا مشابها من قبل ؟",
+  "ما هي طبيعه عملك ؟",
+];
 
-// io.on("connection", (socket) => {
-//   console.log("a user connected");
+io.on("connection", (socket) => {
+  console.log("a user connected");
 
-//   let currentQuestionIndex = 0;
-//   let chat = [];
+  let currentQuestionIndex = 0;
+  let chat = [];
 
-//   // Send a "connected!" message to the client
-//   socket.emit("message", "connected!");
+  // Send a "connected!" message to the client
+  socket.emit("message", "connected!");
 
-//   // Start asking the first question
-//   socket.emit("question", questions[currentQuestionIndex]);
+  // Start asking the first question
+  socket.emit("question", questions[currentQuestionIndex]);
 
-//   socket.on("answer", (answer) => {
-//     chat.push(questions[currentQuestionIndex]);
-//     chat.push(answer);
+  socket.on("answer", (answer) => {
+    chat.push(questions[currentQuestionIndex]);
+    chat.push(answer);
 
-//     currentQuestionIndex++;
+    currentQuestionIndex++;
 
-//     if (currentQuestionIndex < questions.length) {
-//       socket.emit("question", questions[currentQuestionIndex]);
-//     } else {
-//       const prompt = `based on this conversation ${chat.join(
-//         ", "
-//       )} what do you think the diagnosis is ? and can you recommend some general purpose exercises ?`;
+    if (currentQuestionIndex < questions.length) {
+      socket.emit("question", questions[currentQuestionIndex]);
+    } else {
+      const prompt = `based on this conversation ${chat.join(
+        ", "
+      )} what do you think the diagnosis is ? and can you recommend some general purpose exercises ?`;
 
-//       getChatGPTResponse(prompt).then((response) => {
-//         socket.emit("response", response);
-//       });
-//     }
-//   });
+      getChatGPTResponse(prompt).then((response) => {
+        socket.emit("response", response);
+      });
+    }
+  });
 
-//   socket.on("disconnect", () => {
-//     console.log("user disconnected");
-//   });
-// });
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
 
-// async function getChatGPTResponse(prompt) {
-//   const result = await model.generateContent(prompt);
-//   return result.response.text();
-// }
+async function getChatGPTResponse(prompt) {
+  const result = await model.generateContent(prompt);
+  return result.response.text();
+}
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
