@@ -24,7 +24,7 @@ const io = socketIo(server, {
   },
 });
 
-server.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Server is running!!!");
 });
 
