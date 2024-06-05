@@ -9,8 +9,7 @@
   },
   "keywords": [],
   "author": "",
-  "type": "module",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@google/generative-ai": "^0.12.0",
     "axios": "^1.7.2",
