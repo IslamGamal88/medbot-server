@@ -2,10 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "dev": "bun --hot app.js",
-    "start": "bun --bun run app.js"
+    "dev": "bun --hot index.js",
+    "start": "bun --bun run index.js"
   },
   "keywords": [],
   "author": "",
