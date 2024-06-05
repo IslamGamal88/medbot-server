@@ -25,7 +25,7 @@ const io = socketIo(server, {
 });
 
 app.get("/", (req, res) => {
-  res.send("Server is running");
+  res.send("Server is running!!!");
 });
 
 const questions = [
