@@ -24,6 +24,10 @@ const io = socketIo(server, {
   },
 });
 
+app.get("/", (req, res) => {
+  res.send("Server is running");
+});
+
 const questions = [
   "ما هو سنك ؟",
   "هل انت ذكر ام انثي ؟",
