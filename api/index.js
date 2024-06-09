@@ -11,14 +11,14 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const app = express();
 app.use(
   cors({
-    origin: "*",
+    origin: "https://pronationbot.vercel.app",
   })
 );
 
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "*",
+    origin: "https://pronationbot.vercel.app",
     methods: ["GET", "POST"],
   },
 });
