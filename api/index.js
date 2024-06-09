@@ -27,6 +27,9 @@ const io = socketIo(server, {
       : "http://localhost:3000",
     methods: ["GET", "POST"],
   },
+  wwsEngine: ["ws", "wss"],
+  transports: ["websocket", "polling"],
+  allowEIO3: true,
 });
 
 app.get("/", (req, res) => {
