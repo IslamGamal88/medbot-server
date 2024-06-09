@@ -7,7 +7,8 @@ require("dotenv").config();
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+const PORT = process.env.PORT || 8000;
+const isProd = process.env.NODE_ENV === "production";
 const app = express();
 app.use(
   cors({
@@ -18,13 +19,15 @@ app.use(
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "https://pronationbot.vercel.app",
+    origin: isProd
+      ? "https://pronationbot.vercel.app"
+      : "http://localhost:3000",
     methods: ["GET", "POST"],
   },
 });
 
 app.get("/", (req, res) => {
-  res.send("Server is running!!!");
+  res.send(`Server is running!!! on port ${PORT}`);
 });
 
 const questions = [
@@ -85,7 +88,6 @@ async function getChatGPTResponse(prompt) {
   return result.response.text();
 }
 
-const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
