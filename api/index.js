@@ -1,5 +1,5 @@
-const express = require("express");
-const http = require("http");
+const app = require("express")();
+const server = require("http").Server(app);
 const socketIo = require("socket.io");
 const cors = require("cors"); // Add this line
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -9,14 +9,17 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const PORT = process.env.PORT || 8000;
 const isProd = process.env.NODE_ENV === "production";
-const app = express();
+server.listen(PORT, (s) => {
+  console.log(`Server running on port ${PORT}`);
+});
+
 app.use(
   cors({
     origin: "https://pronationbot.vercel.app",
   })
 );
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: isProd
@@ -87,9 +90,5 @@ async function getChatGPTResponse(prompt) {
   const result = await model.generateContent(prompt);
   return result.response.text();
 }
-
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
 module.exports = server;
