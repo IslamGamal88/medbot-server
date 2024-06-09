@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "bun --hot index.js",
+    "dev": "bun --hot ./api/index.js",
     "start": "bun --bun run index.js"
   },
   "keywords": [],
