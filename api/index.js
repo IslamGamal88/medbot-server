@@ -16,7 +16,7 @@ const origin = isProd
 const target = isProd
   ? "https://pronation.vercel.app"
   : "http://localhost:8000";
-proxy.createProxyServer({ target }).listen(80);
+proxy.createProxyServer({ target, ws: true }).listen(80);
 
 server.listen(PORT, (s) => {
   console.log(`Server running on port ${PORT}`);
