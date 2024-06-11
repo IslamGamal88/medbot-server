@@ -1,5 +1,6 @@
 const app = require("express")();
 const server = require("http").Server(app);
+const proxy = require("http-proxy");
 const socketIo = require("socket.io");
 const cors = require("cors"); // Add this line
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -9,22 +10,27 @@ const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 const PORT = process.env.PORT || 8000;
 const isProd = process.env.NODE_ENV === "production";
+const origin = isProd
+  ? "https://pronationbot.vercel.app"
+  : "http://localhost:3000";
+const target = isProd
+  ? "https://pronation.vercel.app"
+  : "http://localhost:8000";
+proxy.createProxyServer({ target }).listen(80);
+
 server.listen(PORT, (s) => {
   console.log(`Server running on port ${PORT}`);
 });
 
 app.use(
   cors({
-    origin: "https://pronationbot.vercel.app",
+    origin,
   })
 );
 
-// const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: isProd
-      ? "https://pronationbot.vercel.app"
-      : "http://localhost:3000",
+    origin,
     methods: ["GET", "POST"],
   },
   wwsEngine: ["ws", "wss"],
